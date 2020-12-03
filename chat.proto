@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "github.com/nchcl/sd;chat";
+
+message Chunk {
+  string name = 1;
+  int32 parts = 2;
+  bytes data = 3;
+}
+
+message Signal {
+  int32 id = 1;
+  string body = 2;
+  bool response = 3;
+  string nombre = 4;
+  repeated string nodos = 5;
+  int32 iden = 6;
+}
+
+message Alerta{
+  string mensaje=1;
+}
+
+service ChatService {
+  rpc SendChunks(Chunk) returns (Signal) {}
+  rpc TransferenciaLista(Signal) returns (Signal) {}
+  rpc EnviarPropuesta(Signal) returns (Signal) {}
+  rpc EnviarPropuestaDist(Signal) returns (Signal) {}
+  rpc RecibirPropuestaDist(Signal) returns (Signal) {}
+  rpc SendMensaje(Alerta) returns (Alerta) {}
+  rpc EscribirLog(Signal) returns (Signal) {}
+  rpc ConsultarUbicacion(Signal) returns (Signal) {}
+  rpc PedirChunk(Signal) returns (Chunk) {}
+}
+
