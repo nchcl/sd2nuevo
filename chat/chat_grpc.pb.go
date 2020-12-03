@@ -17,7 +17,7 @@ type Server struct {
 }
 
 //Direcciones
-var addresses[4] string = [4]string{"dist120:9000","dist117:9001",":dist118:9002","dist119:9003"}
+var addresses[4] string = [4]string{"dist120:9000","dist117:9001","dist118:9002","dist119:9003"}
 var nodos[] string = []string{"dist117:9001","dist118:9002","dist119:9003"}
 
 func remove(s []string, i int) []string {
