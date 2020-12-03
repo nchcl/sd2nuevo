@@ -72,8 +72,14 @@ func uploader(nombre_libro string) {
     var errconn error
     
     for j := 1; j < 4; j++ {
-        _, errconn = grpc.Dial(addresses[j], grpc.WithInsecure(), grpc.WithBlock(), grpc.FailOnNonTempDialError(true))
+        conn_revision, errconn = grpc.Dial(addresses[j], grpc.WithInsecure(), grpc.FailOnNonTempDialError(true))
         if errconn != nil {
+            log.Fatalf("did not connect: %s", err_con)  
+        }
+        defer conn_revision.Close()
+        c := NewChatServiceClient(conn_revision)
+        response, err_con := c.SendMensaje(context.Background(), &Alerta{Mensaje: "Mensaje de Prueba"})
+        if err_con != nil {
             fmt.Printf("Nodo %d muerto\n", j)
             nodos_vivos[j] = 0
         }
