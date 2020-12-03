@@ -60,11 +60,13 @@ func downloader() {
     }
     
     combinar(name, uint64(partes))
+
 }
 
 //Funcion para subir un libro, primero checkea si los nodos estan vivos o no
 //Se elige un dataNode aleatorio
 func uploader(nombre_libro string) {
+    start := time.Now()
     var nodos_vivos [4]int = [4]int{1,1,1,1}
     var nodo_a_enviar int = azar()
     var errconn error
@@ -129,12 +131,18 @@ func uploader(nombre_libro string) {
             log.Fatalf("Error: %s", err)
         }
         log.Printf("%s", response.Body)
+        t := time.Now()
+        elapsed := t.Sub(start)
+        log.Printf("Tiempo en Algortimo Distribuido: %s", elapsed)
     } else {
         response, err := c.TransferenciaLista(context.Background(), &chat.Signal{Id: int32(totalPartsNum), Nombre: nombre_libro, Iden: int32(nodo_a_enviar)})
         if err != nil {
             log.Fatalf("Error: %s", err)
         }
         log.Printf("%s", response.Body)
+        t := time.Now()
+        elapsed := t.Sub(start)
+        log.Printf("Tiempo en Algortimo Centralizado: %s", elapsed)
     }
 
 }
@@ -217,6 +225,11 @@ func combinar(nombre_libro string , cantidad_partes uint64){
             fmt.Println("Written ", n, " bytes")
 
             fmt.Println("Recombining part [", j, "] into : ", newFileName)
+
+            err = os.Remove(currentChunkFileName) 
+            if err != nil { 
+                log.Fatal(err) 
+            } 
         }
 
         file.Close()
@@ -233,7 +246,7 @@ func azar() int {
     
 }
 
-var addresses[4] string = [4]string{":9000",":9001",":9002",":9003"}
+var addresses[4] string = [4]string{"dist120:9000","dist117:9001",":dist118:9002","dist119:9003"}
 var tipo_algoritmo int
 
 func main() {
