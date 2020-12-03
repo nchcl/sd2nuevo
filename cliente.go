@@ -70,10 +70,8 @@ func uploader(nombre_libro string) {
     var nodos_vivos [4]int = [4]int{1,1,1,1}
     var nodo_a_enviar int = azar()
     var errconn error
+    
     var conn_revision *grpc.ClientConn
-
-
-
     for j := 1; j < 4; j++ {
         conn_revision, errconn = grpc.Dial(addresses[j], grpc.WithInsecure(), grpc.FailOnNonTempDialError(true))
         if errconn != nil {
@@ -81,7 +79,7 @@ func uploader(nombre_libro string) {
         }
         defer conn_revision.Close()
         c := chat.NewChatServiceClient(conn_revision)
-        _, err_con := c.SendMensaje(context.Background(), &chat.Alerta{Mensaje: "Mensaje de Prueba"})
+        _, err_con := c.SendMensaje(context.Background(), &chat.Alerta{Mensaje: "Mensaje de Prueba HOLAAAAAAAAA"})
         if err_con != nil {
             fmt.Printf("Nodo %d muerto\n", j)
             nodos_vivos[j] = 0
@@ -155,7 +153,6 @@ func uploader(nombre_libro string) {
     }
 
 }
-
 
 //Funcion para combinar las partes luego de descargarlas con el downloader
 func combinar(nombre_libro string , cantidad_partes uint64){
