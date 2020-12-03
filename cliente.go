@@ -246,7 +246,7 @@ func azar() int {
     
 }
 
-var addresses[4] string = [4]string{"dist120:9000","dist117:9001","dist118:9002","dist119:9003"}
+var addresses[4] string = [4]string{"dist120:9000","dist117:9000","dist118:9000","dist119:9000"}
 var tipo_algoritmo int
 
 func main() {
